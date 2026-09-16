@@ -14,5 +14,8 @@ Este Repositorio contiene el codigo fuente y la estructura base correspondiente 
 * **Gestor de Construcion:** Maven
 * **Control de Versiones** Git & GitHub
 
-### Diagrama de Clases UML
+## Diagrama de Clases UML
 ![Diagrama de Clases](diagrama-clases.png)
+
+### Diagrama de Casos de Uso
+![Diagrama de Casos de Uso](casos-de-uso.png)
