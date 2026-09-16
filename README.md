@@ -13,3 +13,6 @@ Este Repositorio contiene el codigo fuente y la estructura base correspondiente 
 * **Lenguaje:** Java21
 * **Gestor de Construcion:** Maven
 * **Control de Versiones** Git & GitHub
+
+### Diagrama de Clases UML
+![Diagrama de Clases](diagrama-clases.png)
