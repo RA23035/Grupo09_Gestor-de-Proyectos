@@ -15,4 +15,4 @@ Este Repositorio contiene el codigo fuente y la estructura base correspondiente 
 * **Control de Versiones** Git & GitHub
 
 ### Diagrama de Clases UML
-![Diagrama de Clases](API%20Para%20Gestion%20de%20Proyectos/diagrama-clases.png)
+![Diagrama de Clases](diagrama-clases.png)
