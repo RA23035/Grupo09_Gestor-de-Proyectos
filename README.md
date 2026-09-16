@@ -14,6 +14,9 @@ Este Repositorio contiene el codigo fuente y la estructura base correspondiente 
 * **Gestor de Construcion:** Maven
 * **Control de Versiones** Git & GitHub
 
+### Diagrama Entidad-Relación (Base de Datos)
+![Diagrama ER](diagrama-er.png)
+
 ## Diagrama de Clases UML
 ![Diagrama de Clases](diagrama-clases.png)
 
