@@ -47,13 +47,11 @@ public class TareaService {
     public TareaDTO crear(TareaDTO dto) {
         Proyecto proyecto = proyectoRepository.findById(dto.getProyectoId())
                 .orElseThrow(() -> new RuntimeException("Proyecto no encontrado con ID: " + dto.getProyectoId()));
-
         Usuario usuario = null;
         if (dto.getUsuarioAsignadoId() != null) {
             usuario = usuarioRepository.findById(dto.getUsuarioAsignadoId())
                     .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + dto.getUsuarioAsignadoId()));
         }
-
         Tarea tarea = Tarea.builder()
                 .titulo(dto.getTitulo())
                 .descripcion(dto.getDescripcion())
@@ -63,7 +61,6 @@ public class TareaService {
                 .proyecto(proyecto)
                 .usuarioAsignado(usuario)
                 .build();
-
         Tarea guardada = tareaRepository.save(tarea);
         return convertirADTO(guardada);
     }
@@ -71,16 +68,13 @@ public class TareaService {
     public TareaDTO actualizar(Long id, TareaDTO dto) {
         Tarea tarea = tareaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Tarea no encontrada con ID: " + id));
-
         Proyecto proyecto = proyectoRepository.findById(dto.getProyectoId())
                 .orElseThrow(() -> new RuntimeException("Proyecto no encontrado con ID: " + dto.getProyectoId()));
-
         Usuario usuario = null;
         if (dto.getUsuarioAsignadoId() != null) {
             usuario = usuarioRepository.findById(dto.getUsuarioAsignadoId())
                     .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + dto.getUsuarioAsignadoId()));
         }
-
         tarea.setTitulo(dto.getTitulo());
         tarea.setDescripcion(dto.getDescripcion());
         tarea.setFechaLimite(dto.getFechaLimite());
@@ -88,7 +82,6 @@ public class TareaService {
         tarea.setEstado(dto.getEstado());
         tarea.setProyecto(proyecto);
         tarea.setUsuarioAsignado(usuario);
-
         Tarea actualizada = tareaRepository.save(tarea);
         return convertirADTO(actualizada);
     }

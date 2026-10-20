@@ -37,13 +37,11 @@ public class ProyectoService {
     public ProyectoDTO actualizar(Long id, ProyectoDTO dto) {
         Proyecto proyecto = proyectoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Proyecto no encontrado con ID: " + id));
-
         proyecto.setNombre(dto.getNombre());
         proyecto.setDescripcion(dto.getDescripcion());
         proyecto.setFechaInicio(dto.getFechaInicio());
         proyecto.setFechaFin(dto.getFechaFin());
         proyecto.setEstado(dto.getEstado());
-
         Proyecto actualizado = proyectoRepository.save(proyecto);
         return convertirADTO(actualizado);
     }
