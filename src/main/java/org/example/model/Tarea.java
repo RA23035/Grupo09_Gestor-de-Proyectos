@@ -32,5 +32,6 @@ public class Tarea {
     private Usuario usuarioAsignado;
     @OneToMany(mappedBy = "tarea", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private List<Comentario> comentarios = new ArrayList<>();
 }

@@ -26,5 +26,6 @@ public class Proyecto {
     private String estado;
     @OneToMany(mappedBy = "proyecto", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private List<Tarea> tareas = new ArrayList<>();
 }

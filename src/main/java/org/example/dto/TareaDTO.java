@@ -11,41 +11,36 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
-/**
- * Objeto de transferencia de datos para la entidad Tarea.
- * Sustituye a las referencias directas a la entidad JPA en la capa de REST.
- */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class TareaDTO {
 
-    @Positive
     private Long id;
 
-    @NotBlank
-    @Size(max = 150)
+    @NotBlank(message = "El título de la tarea no puede estar vacío")
+    @Size(max = 150, message = "El título no debe exceder 150 caracteres")
     private String titulo;
 
-    @Size(max = 1000)
+    @Size(max = 1000, message = "La descripción no debe exceder 1000 caracteres")
     private String descripcion;
 
-    @NotNull
+    @NotNull(message = "La fecha límite es obligatoria")
     private LocalDate fechaLimite;
 
-    @NotBlank
-    @Size(max = 20)
+    @NotBlank(message = "La prioridad no puede estar vacía")
+    @Size(max = 20, message = "La prioridad no debe exceder 20 caracteres")
     private String prioridad;
 
-    @NotBlank
-    @Size(max = 30)
+    @NotBlank(message = "El estado de la tarea no puede estar vacío")
+    @Size(max = 30, message = "El estado no debe exceder 30 caracteres")
     private String estado;
 
-    @NotNull
-    @Positive
+    @NotNull(message = "El ID del proyecto es obligatorio")
+    @Positive(message = "El ID del proyecto debe ser un número positivo")
     private Long proyectoId;
 
-    @Positive
+    @Positive(message = "El ID del usuario asignado debe ser un número positivo")
     private Long usuarioAsignadoId;
 }

@@ -1,57 +1,46 @@
 package org.example.controller;
 
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.example.dto.TareaDTO;
 import org.example.service.TareaService;
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/tareas")
+@RequiredArgsConstructor
 public class TareaController {
 
     private final TareaService tareaService;
 
-    public TareaController(TareaService tareaService) {
-        this.tareaService = tareaService;
-    }
-
     @GetMapping
-    public List<TareaDTO> listar() {
-        return tareaService.listar();
+    public ResponseEntity<List<TareaDTO>> obtenerTodas() {
+        return ResponseEntity.ok(tareaService.obtenerTodas());
     }
 
     @GetMapping("/proyecto/{proyectoId}")
-    public List<TareaDTO> listarPorProyecto(@PathVariable Long proyectoId) {
-        return tareaService.listarPorProyecto(proyectoId);
+    public ResponseEntity<List<TareaDTO>> obtenerPorProyecto(@PathVariable Long proyectoId) {
+        return ResponseEntity.ok(tareaService.obtenerPorProyecto(proyectoId));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TareaDTO> buscarPorId(@PathVariable Long id) {
-        return tareaService.buscarPorId(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<TareaDTO> obtenerPorId(@PathVariable Long id) {
+        return ResponseEntity.ok(tareaService.obtenerPorId(id));
     }
 
     @PostMapping
-    public ResponseEntity<TareaDTO> crear(@Valid @RequestBody TareaDTO tareaDTO) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(tareaService.crear(tareaDTO));
+    public ResponseEntity<TareaDTO> crear(@Valid @RequestBody TareaDTO dto) {
+        TareaDTO creada = tareaService.crear(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(creada);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TareaDTO> actualizar(@PathVariable Long id,
-                                               @Valid @RequestBody TareaDTO tareaDTO) {
-        return ResponseEntity.ok(tareaService.actualizar(id, tareaDTO));
+    public ResponseEntity<TareaDTO> actualizar(@PathVariable Long id, @Valid @RequestBody TareaDTO dto) {
+        return ResponseEntity.ok(tareaService.actualizar(id, dto));
     }
 
     @DeleteMapping("/{id}")

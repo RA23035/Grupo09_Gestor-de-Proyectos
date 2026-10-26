@@ -1,5 +1,6 @@
 package org.example.service;
 
+import lombok.RequiredArgsConstructor;
 import org.example.dto.TareaDTO;
 import org.example.model.Proyecto;
 import org.example.model.Tarea;
@@ -13,18 +14,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class TareaService {
+
     private final TareaRepository tareaRepository;
     private final ProyectoRepository proyectoRepository;
     private final UsuarioRepository usuarioRepository;
-
-    public TareaService(TareaRepository tareaRepository,
-                        ProyectoRepository proyectoRepository,
-                        UsuarioRepository usuarioRepository) {
-        this.tareaRepository = tareaRepository;
-        this.proyectoRepository = proyectoRepository;
-        this.usuarioRepository = usuarioRepository;
-    }
 
     public List<TareaDTO> obtenerTodas() {
         return tareaRepository.findAll().stream()
@@ -47,11 +42,13 @@ public class TareaService {
     public TareaDTO crear(TareaDTO dto) {
         Proyecto proyecto = proyectoRepository.findById(dto.getProyectoId())
                 .orElseThrow(() -> new RuntimeException("Proyecto no encontrado con ID: " + dto.getProyectoId()));
+
         Usuario usuario = null;
         if (dto.getUsuarioAsignadoId() != null) {
             usuario = usuarioRepository.findById(dto.getUsuarioAsignadoId())
                     .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + dto.getUsuarioAsignadoId()));
         }
+
         Tarea tarea = Tarea.builder()
                 .titulo(dto.getTitulo())
                 .descripcion(dto.getDescripcion())
@@ -61,6 +58,7 @@ public class TareaService {
                 .proyecto(proyecto)
                 .usuarioAsignado(usuario)
                 .build();
+
         Tarea guardada = tareaRepository.save(tarea);
         return convertirADTO(guardada);
     }
@@ -68,13 +66,16 @@ public class TareaService {
     public TareaDTO actualizar(Long id, TareaDTO dto) {
         Tarea tarea = tareaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Tarea no encontrada con ID: " + id));
+
         Proyecto proyecto = proyectoRepository.findById(dto.getProyectoId())
                 .orElseThrow(() -> new RuntimeException("Proyecto no encontrado con ID: " + dto.getProyectoId()));
+
         Usuario usuario = null;
         if (dto.getUsuarioAsignadoId() != null) {
             usuario = usuarioRepository.findById(dto.getUsuarioAsignadoId())
                     .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + dto.getUsuarioAsignadoId()));
         }
+
         tarea.setTitulo(dto.getTitulo());
         tarea.setDescripcion(dto.getDescripcion());
         tarea.setFechaLimite(dto.getFechaLimite());
@@ -82,6 +83,7 @@ public class TareaService {
         tarea.setEstado(dto.getEstado());
         tarea.setProyecto(proyecto);
         tarea.setUsuarioAsignado(usuario);
+
         Tarea actualizada = tareaRepository.save(tarea);
         return convertirADTO(actualizada);
     }
@@ -94,6 +96,7 @@ public class TareaService {
     }
 
     public TareaDTO convertirADTO(Tarea entidad) {
+        if (entidad == null) return null;
         return TareaDTO.builder()
                 .id(entidad.getId())
                 .titulo(entidad.getTitulo())

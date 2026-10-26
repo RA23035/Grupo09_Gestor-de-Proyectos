@@ -22,7 +22,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class ProyectoDTO {
 
-    @Positive
     private Long id;
 
     @NotBlank

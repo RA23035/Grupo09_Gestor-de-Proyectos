@@ -1,5 +1,6 @@
 package org.example.service;
 
+import lombok.RequiredArgsConstructor;
 import org.example.dto.UsuarioDTO;
 import org.example.model.Usuario;
 import org.example.repository.UsuarioRepository;
@@ -9,12 +10,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class UsuarioService {
-    private final UsuarioRepository usuarioRepository;
 
-    public UsuarioService(UsuarioRepository usuarioRepository) {
-        this.usuarioRepository = usuarioRepository;
-    }
+    private final UsuarioRepository usuarioRepository;
 
     public List<UsuarioDTO> obtenerTodos() {
         return usuarioRepository.findAll().stream()
@@ -29,7 +28,11 @@ public class UsuarioService {
     }
 
     public UsuarioDTO crear(UsuarioDTO dto) {
+        if (usuarioRepository.existsByCorreo(dto.getCorreo())) {
+            throw new RuntimeException("El correo ya está registrado: " + dto.getCorreo());
+        }
         Usuario usuario = convertirAEntidad(dto);
+        usuario.setId(null); // Asegura que se genere un nuevo ID
         Usuario guardado = usuarioRepository.save(usuario);
         return convertirADTO(guardado);
     }
@@ -37,10 +40,12 @@ public class UsuarioService {
     public UsuarioDTO actualizar(Long id, UsuarioDTO dto) {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id));
+
         usuario.setNombre(dto.getNombre());
         usuario.setCorreo(dto.getCorreo());
         usuario.setContrasena(dto.getContrasena());
         usuario.setRol(dto.getRol());
+
         Usuario actualizado = usuarioRepository.save(usuario);
         return convertirADTO(actualizado);
     }
@@ -53,6 +58,7 @@ public class UsuarioService {
     }
 
     public UsuarioDTO convertirADTO(Usuario entidad) {
+        if (entidad == null) return null;
         return UsuarioDTO.builder()
                 .id(entidad.getId())
                 .nombre(entidad.getNombre())
@@ -63,6 +69,7 @@ public class UsuarioService {
     }
 
     public Usuario convertirAEntidad(UsuarioDTO dto) {
+        if (dto == null) return null;
         return Usuario.builder()
                 .id(dto.getId())
                 .nombre(dto.getNombre())

@@ -23,5 +23,6 @@ public class Usuario {
     private String rol;
     @OneToMany(mappedBy = "usuarioAsignado")
     @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private List<Tarea> tareasAsignadas = new ArrayList<>();
 }

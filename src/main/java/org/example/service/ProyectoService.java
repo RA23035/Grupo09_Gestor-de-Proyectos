@@ -1,5 +1,6 @@
 package org.example.service;
 
+import lombok.RequiredArgsConstructor;
 import org.example.dto.ProyectoDTO;
 import org.example.model.Proyecto;
 import org.example.repository.ProyectoRepository;
@@ -9,12 +10,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ProyectoService {
-    private final ProyectoRepository proyectoRepository;
 
-    public ProyectoService(ProyectoRepository proyectoRepository) {
-        this.proyectoRepository = proyectoRepository;
-    }
+    private final ProyectoRepository proyectoRepository;
 
     public List<ProyectoDTO> obtenerTodos() {
         return proyectoRepository.findAll().stream()
@@ -29,19 +28,24 @@ public class ProyectoService {
     }
 
     public ProyectoDTO crear(ProyectoDTO dto) {
+        validarFechas(dto);
         Proyecto proyecto = convertirAEntidad(dto);
+        proyecto.setId(null);
         Proyecto guardado = proyectoRepository.save(proyecto);
         return convertirADTO(guardado);
     }
 
     public ProyectoDTO actualizar(Long id, ProyectoDTO dto) {
+        validarFechas(dto);
         Proyecto proyecto = proyectoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Proyecto no encontrado con ID: " + id));
+
         proyecto.setNombre(dto.getNombre());
         proyecto.setDescripcion(dto.getDescripcion());
         proyecto.setFechaInicio(dto.getFechaInicio());
         proyecto.setFechaFin(dto.getFechaFin());
         proyecto.setEstado(dto.getEstado());
+
         Proyecto actualizado = proyectoRepository.save(proyecto);
         return convertirADTO(actualizado);
     }
@@ -53,7 +57,14 @@ public class ProyectoService {
         proyectoRepository.deleteById(id);
     }
 
+    private void validarFechas(ProyectoDTO dto) {
+        if (dto.getFechaFin() != null && dto.getFechaFin().isBefore(dto.getFechaInicio())) {
+            throw new RuntimeException("La fecha de fin no puede ser anterior a la fecha de inicio");
+        }
+    }
+
     public ProyectoDTO convertirADTO(Proyecto entidad) {
+        if (entidad == null) return null;
         return ProyectoDTO.builder()
                 .id(entidad.getId())
                 .nombre(entidad.getNombre())
@@ -65,6 +76,7 @@ public class ProyectoService {
     }
 
     public Proyecto convertirAEntidad(ProyectoDTO dto) {
+        if (dto == null) return null;
         return Proyecto.builder()
                 .id(dto.getId())
                 .nombre(dto.getNombre())

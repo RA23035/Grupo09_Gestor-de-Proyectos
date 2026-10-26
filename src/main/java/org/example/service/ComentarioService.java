@@ -1,5 +1,6 @@
 package org.example.service;
 
+import lombok.RequiredArgsConstructor;
 import org.example.dto.ComentarioDTO;
 import org.example.model.Comentario;
 import org.example.model.Tarea;
@@ -13,23 +14,23 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ComentarioService {
+
     private final ComentarioRepository comentarioRepository;
     private final TareaRepository tareaRepository;
     private final UsuarioRepository usuarioRepository;
-
-    public ComentarioService(ComentarioRepository comentarioRepository,
-                             TareaRepository tareaRepository,
-                             UsuarioRepository usuarioRepository) {
-        this.comentarioRepository = comentarioRepository;
-        this.tareaRepository = tareaRepository;
-        this.usuarioRepository = usuarioRepository;
-    }
 
     public List<ComentarioDTO> obtenerTodos() {
         return comentarioRepository.findAll().stream()
                 .map(this::convertirADTO)
                 .collect(Collectors.toList());
+    }
+
+    public ComentarioDTO obtenerPorId(Long id) {
+        Comentario comentario = comentarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Comentario no encontrado con ID: " + id));
+        return convertirADTO(comentario);
     }
 
     public List<ComentarioDTO> obtenerPorTarea(Long tareaId) {
@@ -41,13 +42,16 @@ public class ComentarioService {
     public ComentarioDTO crear(ComentarioDTO dto) {
         Tarea tarea = tareaRepository.findById(dto.getTareaId())
                 .orElseThrow(() -> new RuntimeException("Tarea no encontrada con ID: " + dto.getTareaId()));
+
         Usuario usuario = usuarioRepository.findById(dto.getUsuarioId())
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + dto.getUsuarioId()));
+
         Comentario comentario = Comentario.builder()
                 .contenido(dto.getContenido())
                 .tarea(tarea)
                 .usuario(usuario)
                 .build();
+
         Comentario guardado = comentarioRepository.save(comentario);
         return convertirADTO(guardado);
     }
@@ -60,6 +64,7 @@ public class ComentarioService {
     }
 
     public ComentarioDTO convertirADTO(Comentario entidad) {
+        if (entidad == null) return null;
         return ComentarioDTO.builder()
                 .id(entidad.getId())
                 .contenido(entidad.getContenido())
