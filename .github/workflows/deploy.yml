@@ -21,8 +21,8 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Build y Pruebas Unitarias (Maven)
-        run: mvn clean test
+      - name: Build, Pruebas Unitarias y Empaquetado (Maven)
+        run: mvn clean package
 
       - name: Construir Imagen Docker
         run: docker build -t gestor-proyectos-api:latest .
