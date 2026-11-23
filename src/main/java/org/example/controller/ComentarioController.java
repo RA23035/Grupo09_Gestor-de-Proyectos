@@ -37,6 +37,11 @@ public class ComentarioController {
         ComentarioDTO creado = comentarioService.crear(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(creado);
     }
+    
+    @PutMapping("/{id}")
+    public ResponseEntity<ComentarioDTO> actualizar(@PathVariable Long id, @Valid @RequestBody ComentarioDTO dto) {
+        return ResponseEntity.ok(comentarioService.actualizar(id, dto));
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {

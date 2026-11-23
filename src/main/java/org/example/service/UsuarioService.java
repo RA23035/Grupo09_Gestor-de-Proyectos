@@ -41,6 +41,9 @@ public class UsuarioService {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id));
 
+                if (!usuario.getCorreo().equals(dto.getCorreo()) && usuarioRepository.existsByCorreo(dto.getCorreo())) {
+            throw new RuntimeException("El correo ya está registrado: " + dto.getCorreo());
+        }
         usuario.setNombre(dto.getNombre());
         usuario.setCorreo(dto.getCorreo());
         usuario.setContrasena(dto.getContrasena());
@@ -63,7 +66,6 @@ public class UsuarioService {
                 .id(entidad.getId())
                 .nombre(entidad.getNombre())
                 .correo(entidad.getCorreo())
-                .contrasena(entidad.getContrasena())
                 .rol(entidad.getRol())
                 .build();
     }

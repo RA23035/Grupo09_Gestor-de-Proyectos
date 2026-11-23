@@ -55,6 +55,15 @@ public class ComentarioService {
         Comentario guardado = comentarioRepository.save(comentario);
         return convertirADTO(guardado);
     }
+    
+    public ComentarioDTO actualizar(Long id, ComentarioDTO dto) {
+        Comentario comentario = comentarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Comentario no encontrado con ID: " + id));
+
+        comentario.setContenido(dto.getContenido());
+        Comentario actualizado = comentarioRepository.save(comentario);
+        return convertirADTO(actualizado);
+    }
 
     public void eliminar(Long id) {
         if (!comentarioRepository.existsById(id)) {
