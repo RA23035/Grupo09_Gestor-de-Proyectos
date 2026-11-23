@@ -56,6 +56,28 @@ public class ComentarioService {
         return convertirADTO(guardado);
     }
 
+    public ComentarioDTO actualizar(Long id, ComentarioDTO dto) {
+        Comentario comentario = comentarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Comentario no encontrado con ID: " + id));
+
+        comentario.setContenido(dto.getContenido());
+
+        if (dto.getTareaId() != null) {
+            Tarea tarea = tareaRepository.findById(dto.getTareaId())
+                    .orElseThrow(() -> new RuntimeException("Tarea no encontrada con ID: " + dto.getTareaId()));
+            comentario.setTarea(tarea);
+        }
+
+        if (dto.getUsuarioId() != null) {
+            Usuario usuario = usuarioRepository.findById(dto.getUsuarioId())
+                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + dto.getUsuarioId()));
+            comentario.setUsuario(usuario);
+        }
+
+        Comentario actualizado = comentarioRepository.save(comentario);
+        return convertirADTO(actualizado);
+    }
+
     public void eliminar(Long id) {
         if (!comentarioRepository.existsById(id)) {
             throw new RuntimeException("Comentario no encontrado con ID: " + id);
