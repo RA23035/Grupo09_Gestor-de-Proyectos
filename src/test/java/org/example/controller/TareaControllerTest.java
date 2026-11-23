@@ -15,9 +15,9 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -48,7 +48,7 @@ class TareaControllerTest {
 
     @Test
     void listarDevuelveLasTareas() throws Exception {
-        when(tareaService.listar()).thenReturn(List.of(tareaValida()));
+        when(tareaService.obtenerTodas()).thenReturn(List.of(tareaValida()));
 
         mockMvc.perform(get("/api/tareas"))
                 .andExpect(status().isOk())
@@ -58,7 +58,7 @@ class TareaControllerTest {
 
     @Test
     void listarPorProyectoDevuelveLasTareasDelProyecto() throws Exception {
-        when(tareaService.listarPorProyecto(1L)).thenReturn(List.of(tareaValida()));
+        when(tareaService.obtenerPorProyecto(1L)).thenReturn(List.of(tareaValida()));
 
         mockMvc.perform(get("/api/tareas/proyecto/1"))
                 .andExpect(status().isOk())
@@ -104,5 +104,24 @@ class TareaControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(invalida)))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void actualizarTareaValidaResponde200() throws Exception {
+        when(tareaService.actualizar(eq(10L), any(TareaDTO.class))).thenReturn(tareaValida());
+
+        mockMvc.perform(put("/api/tareas/10")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(tareaValida())))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(10));
+    }
+
+    @Test
+    void eliminarTareaResponde204() throws Exception {
+        doNothing().when(tareaService).eliminar(10L);
+
+        mockMvc.perform(delete("/api/tareas/10"))
+                .andExpect(status().isNoContent());
     }
 }

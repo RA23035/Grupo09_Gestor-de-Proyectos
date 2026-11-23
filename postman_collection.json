@@ -1,0 +1,199 @@
+{
+  "info": {
+    "name": "Grupo 09 - Gestor de Proyectos API (Entrega 3)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Usuarios",
+      "item": [
+        {
+          "name": "Crear Usuario",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Roberto Ramos\",\n  \"correo\": \"ra23035@ues.edu.sv\",\n  \"contrasena\": \"Password123\",\n  \"rol\": \"ADMIN\"\n}"
+            },
+            "url": { "raw": "http://localhost:30080/api/usuarios", "protocol": "http", "host": ["localhost"], "port": "30080", "path": ["api", "usuarios"] }
+          }
+        },
+        {
+          "name": "Listar Usuarios",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "http://localhost:30080/api/usuarios", "protocol": "http", "host": ["localhost"], "port": "30080", "path": ["api", "usuarios"] }
+          }
+        },
+        {
+          "name": "Actualizar Usuario",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Roberto R. Ramos\",\n  \"correo\": \"ra23035@ues.edu.sv\",\n  \"contrasena\": \"Password123\",\n  \"rol\": \"LIDER\"\n}"
+            },
+            "url": { "raw": "http://localhost:30080/api/usuarios/3", "protocol": "http", "host": ["localhost"], "port": "30080", "path": ["api", "usuarios", "3"] }
+          }
+        },
+        {
+          "name": "Eliminar Usuario",
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "http://localhost:30080/api/usuarios/3", "protocol": "http", "host": ["localhost"], "port": "30080", "path": ["api", "usuarios", "3"] }
+          }
+        },
+        {
+          "name": "Actualizar Usuario",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Roberto R. Ramos\",\n  \"email\": \"roberto@ues.edu.sv\",\n  \"rol\": \"LIDER\"\n}"
+            },
+            "url": { "raw": "http://localhost:30080/api/usuarios/1", "protocol": "http", "host": ["localhost"], "port": "30080", "path": ["api", "usuarios", "1"] }
+          }
+        },
+        {
+          "name": "Eliminar Usuario",
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "http://localhost:30080/api/usuarios/1", "protocol": "http", "host": ["localhost"], "port": "30080", "path": ["api", "usuarios", "1"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Proyectos",
+      "item": [
+        {
+          "name": "Crear Proyecto",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Sistema Gestor Entrega 3\",\n  \"descripcion\": \"Despliegue en Kubernetes y CI/CD\",\n  \"fechaInicio\": \"2026-11-01\",\n  \"fechaFin\": \"2026-12-15\",\n  \"estado\": \"ACTIVO\"\n}"
+            },
+            "url": { "raw": "http://localhost:30080/api/proyectos", "protocol": "http", "host": ["localhost"], "port": "30080", "path": ["api", "proyectos"] }
+          }
+        },
+        {
+          "name": "Listar Proyectos",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "http://localhost:30080/api/proyectos", "protocol": "http", "host": ["localhost"], "port": "30080", "path": ["api", "proyectos"] }
+          }
+        },
+        {
+          "name": "Actualizar Proyecto",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Sistema Gestor Final\",\n  \"descripcion\": \"Proyecto completado\",\n  \"fechaInicio\": \"2026-11-01\",\n  \"fechaFin\": \"2026-12-20\",\n  \"estado\": \"FINALIZADO\"\n}"
+            },
+            "url": { "raw": "http://localhost:30080/api/proyectos/1", "protocol": "http", "host": ["localhost"], "port": "30080", "path": ["api", "proyectos", "1"] }
+          }
+        },
+        {
+          "name": "Eliminar Proyecto",
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "http://localhost:30080/api/proyectos/1", "protocol": "http", "host": ["localhost"], "port": "30080", "path": ["api", "proyectos", "1"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Tareas",
+      "item": [
+        {
+          "name": "Crear Tarea",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Configurar Pipeline CI/CD\",\n  \"descripcion\": \"Validar build, test y deploy en act\",\n  \"fechaLimite\": \"2026-11-30\",\n  \"prioridad\": \"ALTA\",\n  \"estado\": \"EN_PROGRESO\",\n  \"proyectoId\": 1,\n  \"usuarioAsignadoId\": 1\n}"
+            },
+            "url": { "raw": "http://localhost:30080/api/tareas", "protocol": "http", "host": ["localhost"], "port": "30080", "path": ["api", "tareas"] }
+          }
+        },
+        {
+          "name": "Listar Tareas por Proyecto",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "http://localhost:30080/api/tareas/proyecto/1", "protocol": "http", "host": ["localhost"], "port": "30080", "path": ["api", "tareas", "proyecto", "1"] }
+          }
+        },
+        {
+          "name": "Actualizar Tarea",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Configurar Pipeline CI/CD\",\n  \"descripcion\": \"Pipeline completado al 100%\",\n  \"fechaLimite\": \"2026-11-30\",\n  \"prioridad\": \"ALTA\",\n  \"estado\": \"COMPLETADA\",\n  \"proyectoId\": 1,\n  \"usuarioAsignadoId\": 1\n}"
+            },
+            "url": { "raw": "http://localhost:30080/api/tareas/1", "protocol": "http", "host": ["localhost"], "port": "30080", "path": ["api", "tareas", "1"] }
+          }
+        },
+        {
+          "name": "Eliminar Tarea",
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "http://localhost:30080/api/tareas/1", "protocol": "http", "host": ["localhost"], "port": "30080", "path": ["api", "tareas", "1"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Comentarios",
+      "item": [
+        {
+          "name": "Crear Comentario",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"contenido\": \"Pruebas unitarias y despliegue verificados\",\n  \"tareaId\": 1,\n  \"usuarioId\": 1\n}"
+            },
+            "url": { "raw": "http://localhost:30080/api/comentarios", "protocol": "http", "host": ["localhost"], "port": "30080", "path": ["api", "comentarios"] }
+          }
+        },
+        {
+          "name": "Listar Comentarios por Tarea",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "http://localhost:30080/api/comentarios/tarea/1", "protocol": "http", "host": ["localhost"], "port": "30080", "path": ["api", "comentarios", "tarea", "1"] }
+          }
+        },
+        {
+          "name": "Actualizar Comentario",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"contenido\": \"Comentario actualizado correctamente\",\n  \"tareaId\": 1,\n  \"usuarioId\": 1\n}"
+            },
+            "url": { "raw": "http://localhost:30080/api/comentarios/1", "protocol": "http", "host": ["localhost"], "port": "30080", "path": ["api", "comentarios", "1"] }
+          }
+        },
+        {
+          "name": "Eliminar Comentario",
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "http://localhost:30080/api/comentarios/1", "protocol": "http", "host": ["localhost"], "port": "30080", "path": ["api", "comentarios", "1"] }
+          }
+        }
+      ]
+    }
+  ]
+}

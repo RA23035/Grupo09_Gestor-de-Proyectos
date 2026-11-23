@@ -17,10 +17,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -49,7 +46,7 @@ class ProyectoControllerTest {
 
     @Test
     void listarDevuelveLosProyectos() throws Exception {
-        when(proyectoService.listar()).thenReturn(List.of(proyectoValido()));
+        when(proyectoService.obtenerTodos()).thenReturn(List.of(proyectoValido()));
 
         mockMvc.perform(get("/api/proyectos"))
                 .andExpect(status().isOk())
@@ -59,7 +56,7 @@ class ProyectoControllerTest {
 
     @Test
     void buscarProyectoInexistenteResponde404() throws Exception {
-        when(proyectoService.buscarPorId(99L)).thenReturn(java.util.Optional.empty());
+        when(proyectoService.obtenerPorId(99L)).thenThrow(new RuntimeException("Proyecto no encontrado con ID: 99"));
 
         mockMvc.perform(get("/api/proyectos/99"))
                 .andExpect(status().isNotFound());
@@ -124,8 +121,7 @@ class ProyectoControllerTest {
 
     @Test
     void eliminarProyectoInexistenteResponde404() throws Exception {
-        doThrow(new org.springframework.web.server.ResponseStatusException(
-                org.springframework.http.HttpStatus.NOT_FOUND, "No existe un proyecto con el id 99"))
+        doThrow(new RuntimeException("No existe un proyecto con el id 99"))
                 .when(proyectoService).eliminar(99L);
 
         mockMvc.perform(delete("/api/proyectos/99"))

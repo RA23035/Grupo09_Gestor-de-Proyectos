@@ -14,6 +14,29 @@ Este Repositorio contiene el codigo fuente y la estructura base correspondiente 
 * **Gestor de Construcion:** Maven
 * **Control de Versiones** Git & GitHub
 
+# API REST - Gestor de Proyectos (Grupo 09)
+
+API RESTful desarrollada en **Java 21** y **Spring Boot 3.2.0** con persistencia en **PostgreSQL**, validación de DTOs, manejo centralizado de excepciones, pruebas unitarias con JUnit 5/Mockito, documentación OpenAPI (Swagger) y despliegue automatizado en Kubernetes mediante CI/CD local (`act`).
+
+---
+
+## Arquitectura y Stack Tecnológico
+* **Lenguaje:** Java 21
+* **Framework:** Spring Boot 3.2.0 (Web, Data JPA, Validation)
+* **Base de Datos:** PostgreSQL (`project_manager_db`)
+* **Documentación API:** Springdoc OpenAPI / Swagger UI
+* **Testing:** JUnit 5 & Mockito (`MockMvc`)
+* **Contenedores y Orquestación:** Docker & Kubernetes (`Deployment` + `Service NodePort`)
+* **CI/CD Local:** GitHub Actions ejecutado con `act`
+
+---
+
+## Ejecución Local y Documentación Swagger
+1. Asegurar que PostgreSQL esté activo con la base de datos `project_manager_db`.
+2. Compilar y ejecutar pruebas unitarias:
+   ```bash
+   mvn clean test
+
 ### Diagrama Entidad-Relación
 ![Diagrama ER](diagrama-er.png)
 

@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gestor-proyectos
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-gestor-proyectos
+  template:
+    metadata:
+      labels:
+        app: api-gestor-proyectos
+    spec:
+      containers:
+        - name: api-container
+          image: gestor-proyectos:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://host.docker.internal:5432/project_manager_db
